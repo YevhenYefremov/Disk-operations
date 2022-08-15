@@ -1,6 +1,19 @@
 import ctypes
 import os
 import platform
+import string
+from ctypes import windll
+
+
+def get_drives():
+    drives = []
+    bitmask = windll.kernel32.GetLogicalDrives()
+    for letter in string.ascii_uppercase:
+        if bitmask & 1:
+            drives.append(letter)
+        bitmask >>= 1
+
+    return drives
 
 
 def get_free_space_mb(folder):
@@ -14,4 +27,5 @@ def get_free_space_mb(folder):
 
 
 if __name__ == '__main__':
-    print(get_free_space_mb('C:\\').__round__(1), 'GB')
+    for drive in get_drives():
+        print(drive, ': ', get_free_space_mb(f'{drive}:\\').__round__(1), 'GB')
