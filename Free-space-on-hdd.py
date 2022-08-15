@@ -52,7 +52,7 @@ def get_hdd_spaces_mb(folder):
         return st.f_bavail * st.f_frsize/1024/1024, st.f_blocks * st.f_frsize/1024/1024 * st.f_ffree
 
 
-if __name__ == '__main__':
+def main():
     data = [{'Drive': ('free', 'total')}]
     for drive in get_drives():
         free, total = get_hdd_spaces_mb(f'{drive}:\\')
@@ -73,3 +73,7 @@ if __name__ == '__main__':
     except Exception as e:
         logger.error(e.with_traceback)
         logger.info(data)
+
+
+if __name__ == '__main__':
+    main()
